@@ -8,6 +8,11 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [tours, setTours] = useState([])
 
+  const removeTour = (id) => {
+    const removeItem = tours.filter((tour)=> tour.id !== id)
+    setTours(removeItem)
+  }
+
   const fetchTours = async() => {
     setLoading(true)
     try{
@@ -30,8 +35,16 @@ function App() {
       <Loading/>
     </main>
   }
+  if (tours.length === 0){
+    return (
+        <div className="title">
+          <h2>No tours left</h2>
+          <button onClick={fetchTours} className={'btn'}>Reload</button>
+        </div>
+    )
+  }
   return <main>
-               <Tours tours={tours}/>
+               <Tours tours={tours} removeTour={removeTour}/>
          </main>
 }
 
